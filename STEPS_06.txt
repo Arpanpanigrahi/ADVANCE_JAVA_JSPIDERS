@@ -1,0 +1,108 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class BatchUpdation {
+	public static void main(String[] args) throws Exception{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_001","root","Arpan@7219193146");
+		
+		Statement st = con.createStatement();
+		
+		String sql1 = "INSERT INTO student VALUES(5, 'AVINASH', 22)";
+		String sql2 = "INSERT INTO student VALUES(6, 'RAVI', 21)";
+		String sql3 = "INSERT INTO student VALUES(7, 'BHARAT', 19)";
+		
+		//creating batch of SQL queries
+		st.addBatch(sql1);
+		st.addBatch(sql2);
+		st.addBatch(sql3);
+		
+		//executing batch of SQL queries
+		st.executeBatch();
+		
+		con.close();
+		
+		System.out.println("data inserted successfully");
+	}
+}
+------------------------------------------------------------------------
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class SaveStudentPS {
+	public static void main(String[] args) throws Exception{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_001","root","Arpan@7219193146");
+		
+		//Query for pre compilation
+		String sql = "INSERT INTO student VALUES(? , ? , ?)";
+		PreparedStatement ps = con.prepareStatement(sql);
+		
+		//adding data to ps
+		ps.setInt(1, 102);
+		ps.setString(2, "KGF");
+		ps.setInt(3, 40);
+		
+		//transfer the data to the database
+		ps.execute();
+		
+		con.close();
+		
+		System.out.println("data inserted successfully");
+	}
+}
+-------------------------------------------------------------------------------
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+public class SaveStudentPSBU {
+	public static void main(String[] args) throws Exception{
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/jdbc_001","root","Arpan@7219193146");
+		
+		//Query for pre compilation
+		String sql = "INSERT INTO student VALUES(? , ? , ?)";
+		PreparedStatement ps = con.prepareStatement(sql);
+		
+		//adding data to ps
+		ps.setInt(1, 103);
+		ps.setString(2, "YASH");
+		ps.setInt(3, 30);
+		
+		//transfer the data to the database
+		ps.addBatch();
+		
+		//adding data to ps
+		ps.setInt(1, 106);
+		ps.setString(2, "VIJAY");
+		ps.setInt(3, 35);
+		
+		//transfer the data to the database
+		ps.addBatch();
+		
+		//transfer the data to database
+		ps.addBatch();
+		
+		//adding data to ps
+		ps.setInt(1, 105);
+		ps.setString(2, "SAMPU");
+		ps.setInt(3, 38);
+		
+		//transfer the data to database
+		ps.addBatch();
+		
+		//execute batch
+		ps.executeBatch();
+		
+		con.close();
+		
+		System.out.println("data inserted successfully");
+	}
+}
