@@ -1,0 +1,163 @@
+FOLDER: Hibernate-demo
+----------------------------------------
+src/main/java --> java codes
+
+src/main/resources --> Create File META-INF --> Create persistence.xml 
+
+pom.xml ---> paste Hibernate and SQL dependency code
+
+https://mvnrepository.com/artifact/org.hibernate/hibernate-core/5.6.15.Final
+https://mvnrepository.com/artifact/com.mysql/mysql-connector-j/8.0.31
+
+-----------------------------------------
+Employee.java
+-----------------------------------------
+package com.jsp.package1;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
+public class Employee {
+	@Id
+	private int id;
+	private String name;
+	private int sal;
+	private String address;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getSal() {
+		return sal;
+	}
+	public void setSal(int sal) {
+		this.sal = sal;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+
+}
+
+----------------------------------------------
+SaveEmp.java
+----------------------------------------------
+package com.jsp.package1;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class SaveEmp {
+	public static void main(String[] args) {
+		Employee e = new Employee();
+		e.setName("balu");
+		e.setId(104);
+		e.setSal(14000);
+		e.setAddress("Bangalore");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("simha");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		em.persist(e);
+		et.commit();
+		System.out.println("data saved successfully");
+		
+	}
+
+}
+
+--------------------------------------------------
+GetEmp.java
+--------------------------------------------------
+package com.jsp.package1;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class GetEmp {
+	public static void main(String[] args) {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("simha");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		Employee employee = em.find(Employee.class, 104);
+		if(employee!=null) {
+			System.out.println(employee.getId());
+			System.out.println(employee.getName());
+			System.out.println(employee.getAddress());
+			System.out.println(employee.getSal());
+		}
+		et.commit();
+	}
+
+}
+
+----------------------------------------------------
+UpdateEmp.java
+----------------------------------------------------
+package com.jsp.package1;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class UpdateEmp {
+	public static void main(String[] args) {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		Employee employee = entityManager.find(Employee.class, 101);
+		employee.setName("balaiah");
+		employee.setSal(76543);
+		entityManager.merge(employee);
+		entityTransaction.commit();
+	}
+
+}
+
+-----------------------------------------------------------
+DeleteEmp.java
+-----------------------------------------------------------
+package com.jsp.package1;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+public class DeleteEmp {
+	public static void main(String[] args) {
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		Employee employee = entityManager.find(Employee.class, 104);
+		entityManager.remove(employee);
+		entityTransaction.commit();
+	}
+
+}
+
+--------------------------------------------------------------
+CREATE DATABASE hibernate_001;
+
+SELECT * FROM hibernate_001.employee;
