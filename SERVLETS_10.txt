@@ -1,0 +1,49 @@
+<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.servlet.jsp/javax.servlet.jsp-api -->
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.3</version>
+			<scope>provided</scope>
+		</dependency>
+
+------------------------------------------------------------------------------------------------------------------
+					STEPS FOR SERVLETS
+------------------------------------------------------------------------------------------------------------------
+Create Folder (servlet-jsp)
+Open Eclipse
+File ---> Switch Work Space (For new other ---> click on browse) and click on launch
+Download Apache-Tomcat and extract it (Un-Zipped)
+Select Open Prespective ---> JAVA Perspective ---> Project Explorer
+Click on server to add server --> Add Apache 9.0 Server --> NEXT --> Browse --> Apache Unzipped file --> Select Folder --> NEXT --> FINISH
+To check server is working or not Right Click on console and click on start
+
+---------------------------------------SERVER ADDED SUCCESSFULLY--------------------------------------------------
+
+Click on new --> To create Project --> Select MAVEN (INTERNET IS MANDATORY)
+Without Selecting anything click on NEXT
+org.apache.maven (pdf)
+Click on FINISH
+--------------------------------------------TO ADD JAVA FILE-------------------------------------------------------
+
+TO ADD JAVA FILE WE HAVE TO ADD DEPENDENCY(IN pom.xml)
+RIGHT CLICK ON FILE --> PROPERTIES --> BUILD PATH --> JAVA MAVEN LAST TO CHECK MARK
+NEXT OPTION FORCE UPDATE
+-------------------------------------------------------------------------------------------------------------------
+
+					    SERVLET
+					    -------
+1> Standard Edition
+2> Enterprise Edition (Servlet are belonging to Enterprise Edition)
+
+					 NEED OF SEVLET
+					 --------------
+
+
+

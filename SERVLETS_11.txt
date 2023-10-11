@@ -1,0 +1,419 @@
+FOLDER: servlet-001
+-------------------------------------
+src/main/java --- java code
+
+src/main/webapp/WEB-INF ---- jsp code
+
+-------------------------------------
+ui.jsp
+-------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+ <form action="xxx" method="get">
+ <pre>
+  NAME : <input type="text" name="n">
+ PHONE : <input type="text" name="p">
+         <input type="submit">
+ </pre>
+ </form>
+</body>
+</html>
+-----------------------------------------
+Read.java
+-----------------------------------------
+import java.io.IOException;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/xxx")
+
+public class Read extends GenericServlet{
+
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String name=req.getParameter("n");
+		String phone=req.getParameter("p");
+		System.out.println(name);
+		System.out.println(phone);
+		
+	}
+
+}
+-------------------------------------------------------------------------------------------------------------------
+
+msg.jsp
+--------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<a href="write">MSG</a>
+</body>
+</html>
+-------------------------------------------------
+Write.java
+-------------------------------------------------
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/write")
+public class Write extends GenericServlet{
+
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		PrintWriter pw=res.getWriter(); 
+		pw.write("<h1>GOOD AFTERNOON</h1>");
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------
+
+person.jsp
+-------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="read" method="post">
+		<pre>
+			NAME     : <input type="text" name="n">
+			AGE      : <input type="text" name="a">
+			EMAIL    : <input type="text" name="e">
+			PASSWORD : <input type="text" name="p">
+					   <input type="submit">
+		</pre>
+	</form>
+</body>
+</html>
+-------------------------------------------------------
+ReadPersonData.java
+------------------------------------------------------
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/read")
+public class ReadPersonData extends GenericServlet{
+
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String name = req.getParameter("n");
+		String age = req.getParameter("a");
+		String email = req.getParameter("e");
+		String password = req.getParameter("p");
+		
+//		System.out.println(name);
+//		System.out.println(age);
+//		System.out.println(email);
+//		System.out.println(password);
+		
+		PrintWriter pw = res.getWriter();
+		pw.write("<h1> NAME     : "+name+"</h1>");
+		pw.write("<h1> AGE      : "+age+"</h1>");
+		pw.write("<h1> EMAIL    : "+email+"</h1>");
+		pw.write("<h1> PASSWORD : "+password+"</h1>");
+		
+	}
+
+}
+----------------------------------------------------------------------------------------
+FOLDER: Servlet_JDBC
+----------------------------------------------------------------------------------------
+emp.jsp
+-----------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="emp">
+		<pre>
+			NAME   : <input type="text" name="n">
+			GENDER : <input type="text" name="g">
+			SAL    : <input type="text" name="s">
+			BONUS  : <input type="text" name="b">
+					 <input type="submit">
+		</pre>
+	</form>
+</body>
+</html>
+------------------------------------------------------
+ReadEmpData.java
+------------------------------------------------------
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/emp")
+public class ReadEmpData extends GenericServlet{
+
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String name = req.getParameter("n");
+		String gender = req.getParameter("g");
+		double sal = Double.parseDouble(req.getParameter("s"));
+		double bonous = Double.parseDouble(req.getParameter("b"));
+
+		
+		
+//		System.out.println(name);
+//		System.out.println(age);
+//		System.out.println(email);
+//		System.out.println(password);
+		
+		PrintWriter pw = res.getWriter();
+		pw.write("<h1> NAME   : "+name+"</h1>");
+		pw.write("<h1> GENDER : "+gender+"</h1>");
+		pw.write("<h1> SALARY : "+sal+"</h1>");
+		pw.write("<h1> BONUS  : "+bonous+"</h1>");
+		pw.write("<h1> TOTAL  : "+(bonous+sal)+"</h1>");
+		
+	}
+	
+
+}
+-------------------------------------------------------------------------------------------------------------------
+
+registration.jsp
+-----------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="reg">
+	<pre>
+		NAME   : <input type="text" name="n">
+		AGE    : <input type="text" name="a">
+		GENDER : MALE<input type="radio" name="g" value="male">FEMALE<input type="radio" name="g" value="female">
+				 <input type="submit">
+	</pre>
+	</form>
+</body>
+</html>
+--------------------------------------------
+SaveRegistration.java
+--------------------------------------------
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+@WebServlet("/reg")
+public class SaveRegistration extends HttpServlet{
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String name = req.getParameter("n");
+		int age = Integer.parseInt(req.getParameter("a"));
+		String gender = req.getParameter("g");
+		
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/servlet_001?user=root&password=Arpan@7219193146");
+			String sql = "INSERT INTO register(name , age , gender) values(? , ? , ?)" ;
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setInt(2, age);
+			ps.setString(3, gender);
+			ps.execute();
+			con.close();
+		}catch(Exception e) {
+			//e.printStackTrace();
+			System.out.println("JDBC issue");
+		}
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+student.jsp
+------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="std">
+		<pre>
+			NAME   : <input type="text" name="n">
+			AGE    : <input type="text" name="a">
+			GENDER : MALE<input type="radio" name="g" value="male">FEMALE<input type="radio" name="g" value="female">
+			NATION : <select name="not">
+					 <option>-------------Select--------------</option>
+					 <option value="india">INDIA</option>
+					 <option value="pakistan">PAKISTAN</option>
+					 <option value="hongkong">HONGKONG</option>
+					 <option value="dubai">DUBAI</option>
+					 <option value="thailand">THAILAND</option>
+					 </select>
+					 <input type="submit">
+		</pre>
+	</form>
+</body>
+</html>
+------------------------------------------
+ReadStudentData.java
+------------------------------------------
+import java.io.IOException;
+
+import javax.servlet.GenericServlet;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebServlet;
+@WebServlet("/std")
+public class ReadStudentData extends GenericServlet{
+
+	@Override
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		String name = req.getParameter("n");
+		int age = Integer.parseInt(req.getParameter("a"));
+		String gender = req.getParameter("g");
+		String nation = req.getParameter("nat");
+		
+		System.out.println(name);
+		System.out.println(age);
+		System.out.println(gender);
+	}
+
+}
+----------------------------------------------------------------------------------------------------------------
+FOLDER: Movies
+---------------------------------------------------------------------------------------------------------------
+
+movie.jsp
+-------------------------------------------------
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<form action="mov" method="get">
+		<pre>
+		NAME:<input type="text" name="n">
+		LANGUAGE:<select name="l">
+		<option value="od">ODIA</option>
+		<option value="hi">HINDI</option>
+		<option value="en">ENGLISH</option>
+		<option value="ta">TAMIL</option>
+		<option value="te">TELUGU</option>
+		</select>
+		HERO:<input type="text" name="h">
+		TYPE: A<input type="radio" name="t" value="a">
+		B<input type="radio" name="t" value="b">
+		C<input type="radio" name="t" value="c">
+		D<input type="radio" name="t" value="d">
+		F <input type="radio" name="t" value="f">
+		  <input type="submit">
+		</pre>
+	</form>
+</body>
+</html>
+----------------------------------------------------------
+
+SaveMovieData.java
+----------------------------------------------------------
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/mov")
+public class SaveMovieData extends HttpServlet {
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String name = req.getParameter("n");
+		String language = req.getParameter("l");
+		String hero = req.getParameter("h");
+		String type = req.getParameter("t");
+
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/servlet_001", "root", "Arpan@7219193146");
+			String sql = "INSERT INTO movie(name,lang,hero,type) VALUES(?,?,?,?)";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setString(2, language);
+			ps.setString(3, hero);
+			ps.setString(4, type);
+			ps.execute();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+}
+--------------------------------------------------
+create database servlet_001;
+--------------------------------------------------
+
+SELECT * FROM servlet_001.register;
+
+SELECT * FROM servlet_001.movie;
+-------------------------------------------------
+
