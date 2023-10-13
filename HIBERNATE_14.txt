@@ -1,0 +1,316 @@
+FOLDER: onetoone-mapping-uni
+---------------------------------------
+PACKAGE: com.jsp.entities
+
+---------------------------------------
+Company.java
+---------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "company_info")
+public class Company {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private String address;
+	private int noOfEmployee;
+	@OneToOne
+	private GST gst;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getNoOfEmployee() {
+		return noOfEmployee;
+	}
+
+	public void setNoOfEmployee(int noOfEmployee) {
+		this.noOfEmployee = noOfEmployee;
+	}
+
+	public GST getGst() {
+		return gst;
+	}
+
+	public void setGst(GST gst) {
+		this.gst = gst;
+	}
+}
+-------------------------------------------------------------
+GST.java
+-------------------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "gst_info")
+public class GST {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "gstId")
+	private int id;
+	@Column(name = "gstNumber")
+	private String number;
+	@Column(name = "gsCost")
+	private double cost;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public double getCost() {
+		return cost;
+	}
+
+	public void setCost(double cost) {
+		this.cost = cost;
+	}
+
+}
+
+-------------------------------------------------------------------------
+
+PACKAGE: com.jsp.driver
+-------------------------------------------------------------------------
+Test1.java
+-------------------------------------------------------------------------
+package com.jsp.driver;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Company;
+import com.jsp.entities.GST;
+
+public class Test1 {
+	public static void main(String[] args) {
+		Company c = new Company();
+		c.setName("Amazon");
+		c.setAddress("Bangalore");
+		c.setNoOfEmployee(20998764);
+		
+		GST gst = new GST();
+		gst.setNumber("2345");
+		gst.setCost(20000);
+		c.setGst(gst);
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(c);
+		entityManager.persist(gst);
+		entityTransaction.commit();
+	}
+}
+--------------------------------------------------------------------------------------------------------------------------
+
+
+PACKAGE- com.jsp.entities
+---------------------------------------------------------
+Person.java
+---------------------------------------------------------
+package com.jsp.entities;
+
+//cont + shift + f
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Person {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private String loc;
+	private int age1;
+	@OneToOne
+	private Identity ide;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLoc() {
+		return loc;
+	}
+
+	public void setLoc(String loc) {
+		this.loc = loc;
+	}
+
+	public int getAge() {
+		return age1;
+	}
+
+	public void setAge(int age) {
+		this.age1 = age;
+	}
+
+	public Identity getIde() {
+		return ide;
+	}
+
+	public void setIde(Identity ide) {
+		this.ide = ide;
+	}
+
+	
+
+}
+---------------------------------------------------------------
+Identity.java
+---------------------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Identity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private String number;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+}
+---------------------------------------------------------------------
+
+PACKAGE- com.jsp.driver
+----------------------------------------
+Test2.java
+----------------------------------------
+package com.jsp.driver;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Identity;
+import com.jsp.entities.Person;
+
+public class Test2 {
+	public static void main(String[] args) {
+		Person person = new Person();
+		person.setName("rahul");
+		person.setLoc("Bangalore");
+		person.setAge(26);
+		
+		Identity ide = new Identity();
+		ide.setName("PAN Card");
+		ide.setNumber("ckzpn3380h");
+		person.setIde(ide);
+		
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(person);
+		entityManager.persist(ide);
+		entityTransaction.commit();
+		
+	}
+
+}
+-------------------------------------------------------------------------------------------------------------------------
+
+CREATE DATABASE onetoone_uni;
+-------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM onetoone_uni.company_info;
+
+SELECT * FROM onetoone_uni.gst_info;
+
+SELECT * FROM onetoone_uni.identity;
+
+SELECT * FROM onetoone_uni.person;
