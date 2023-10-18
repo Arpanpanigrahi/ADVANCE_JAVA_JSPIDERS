@@ -1,0 +1,484 @@
+FOLDER NAME: onetomany-mapping-uni
+-------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int acid;
+	private String bankName;
+	private long acNumber;
+	private String address;
+
+	public int getAcid() {
+		return acid;
+	}
+
+	public void setAcid(int acid) {
+		this.acid = acid;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public long getAcNumber() {
+		return acNumber;
+	}
+
+	public void setAcNumber(long acNumber) {
+		this.acNumber = acNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+}
+--------------------------------------------------------------
+package com.jsp.entities;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
+public class Person {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private int age;
+	private String loc;
+
+	@OneToMany
+	private List<Account> accounts;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getLoc() {
+		return loc;
+	}
+
+	public void setLoc(String loc) {
+		this.loc = loc;
+	}
+
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+}
+------------------------------------------------------------------
+package com.jsp.driver;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Account;
+import com.jsp.entities.Person;
+
+public class Test1 {
+	public static void main(String[] args) {
+		List<Account> list = new ArrayList<Account>();
+		
+		Account account1 = new Account();
+		account1.setBankName("HDFC");
+		account1.setAddress("Marathahalli");
+		account1.setAcNumber(321654987);
+		
+		Account account2 = new Account();
+		account2.setBankName("AXIS");
+		account2.setAddress("Marathahalli");
+		account2.setAcNumber(123456789);
+		
+		Account account3 = new Account();
+		account3.setBankName("SBI");
+		account3.setAddress("HSR LAYOUT");
+		account3.setAcNumber(753198246);
+		
+		list.add(account1);
+		list.add(account2);
+		list.add(account3);
+		
+		Person person = new Person();
+		person.setName("VIJAY");
+		person.setLoc("BANGALORE");
+		person.setAge(34);
+		person.setAccounts(list);
+		
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(account1);
+		entityManager.persist(account2);
+		entityManager.persist(account3);
+		entityManager.persist(person);
+		entityTransaction.commit();
+	}
+}
+--------------------------------------------------------------------------------------------------------------------
+FOLDER NAME: manytoone-mapping-uni
+----------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int acid;
+	private String bankName;
+	private long number;
+	@ManyToOne
+	private Person person;
+
+	public int getAcid() {
+		return acid;
+	}
+
+	public void setAcid(int acid) {
+		this.acid = acid;
+	}
+
+	public String getBankName() {
+		return bankName;
+	}
+
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(long number) {
+		this.number = number;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+}
+-----------------------------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Person {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private int age;
+	private String loc;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getLoc() {
+		return loc;
+	}
+
+	public void setLoc(String loc) {
+		this.loc = loc;
+	}
+
+}
+---------------------------------------------------------------
+package com.jsp.driver;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Account;
+import com.jsp.entities.Person;
+
+public class Test1 {
+	public static void main(String[] args) {
+		Person person = new Person();
+		person.setName("Arpan");
+		person.setAge(23);
+		person.setLoc("Bangalore");
+		
+		Account account1 = new Account();
+		account1.setBankName("AXIS");
+		account1.setNumber(123456789);
+		account1.setPerson(person);
+		
+		Account account2 = new Account();
+		account2.setBankName("HDFC");
+		account2.setNumber(987654321);
+		account2.setPerson(person);
+		
+		Account account3 = new Account();
+		account3.setBankName("SBI");
+		account3.setNumber(753198246);
+		account3.setPerson(person);
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("simha");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		em.persist(person);
+		em.persist(account1);
+		em.persist(account2);
+		em.persist(account3);
+		
+		et.commit();
+	}
+
+}
+------------------------------------------------------------------------------------------------------
+FOLDER NAME: manytomany-mapping-uni
+------------------------------------------------------------------------------------------------------
+package com.jsp.entities;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Student {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private String address;
+	private int marks;
+	@ManyToMany
+	private List<Subject> list;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getMarks() {
+		return marks;
+	}
+
+	public void setMarks(int marks) {
+		this.marks = marks;
+	}
+
+	public List<Subject> getList() {
+		return list;
+	}
+
+	public void setList(List<Subject> list) {
+		this.list = list;
+	}
+
+	
+}
+----------------------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Subject {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private int duration;
+	private String trainerName;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public String getTrainerName() {
+		return trainerName;
+	}
+
+	public void setTrainerName(String trainerName) {
+		this.trainerName = trainerName;
+	}
+}
+-------------------------------------------------------------------
+package com.jsp.driver;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Student;
+import com.jsp.entities.Subject;
+
+public class Test1 {
+	public static void main(String[] args) {
+		List<Subject> subjects = new ArrayList<Subject>();
+		
+		Subject subject1 = new Subject();
+		subject1.setName("Core Java");
+		subject1.setDuration(90);
+		subject1.setTrainerName("Raveesh");
+		
+		Subject subject2 = new Subject();
+		subject2.setName("SQL");
+		subject2.setDuration(30);
+		subject2.setTrainerName("Greeshma");
+		
+		subjects.add(subject1);
+		subjects.add(subject2);
+		
+		Student student = new Student();
+		student.setName("Arpan");
+		student.setAddress("Mumbai");
+		student.setMarks(78);
+		student.setList(subjects);
+		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("simha");
+		EntityManager em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		et.begin();
+		
+		em.persist(student);
+		em.persist(subject1);
+		em.persist(subject2);
+		
+		et.commit();
+	}
+}
+---------------------------------------------------------------------------------------------------
