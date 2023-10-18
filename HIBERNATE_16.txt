@@ -1,0 +1,516 @@
+FOLDER NAME: onetoone-bi
+----------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Identity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Column(name="identity_name")
+	private String name;
+	private long number;
+	@OneToOne
+	private Person person;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(long number) {
+		this.number = number;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+}
+------------------------------------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Person {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Column(name="person_name")
+	private String name;
+	@Column(name="person_age")
+	private int age;
+	@Column(name="person_loc")
+	private String loc;
+	
+	@OneToOne
+	private Identity identity;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getLoc() {
+		return loc;
+	}
+
+	public void setLoc(String loc) {
+		this.loc = loc;
+	}
+
+	public Identity getIdentity() {
+		return identity;
+	}
+
+	public void setIdentity(Identity identity) {
+		this.identity = identity;
+	}
+	
+}
+---------------------------------------------------------------------------
+package com.jsp.driver;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Identity;
+import com.jsp.entities.Person;
+
+public class Test1 {
+	public static void main(String[] args) {
+		Person person = new Person();
+		person.setName("Arpan");
+		person.setAge(23);
+		person.setLoc("Mumbai");
+		
+		Identity identity = new Identity();
+		identity.setName("Aadhar");
+		identity.setNumber(123456789);
+		
+		person.setIdentity(identity);
+		identity.setPerson(person);
+		
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(person);
+		entityManager.persist(identity);
+		entityTransaction.commit();
+	}
+}
+---------------------------------------------------------------------------------------------------------------------
+FOLDER NAME: onetomany-bi
+--------------------------------------------------
+package com.jsp.entities;
+
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+@Entity
+public class Person {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Column(name = "person_name")
+	private String name;
+	@Column(name = "person_age")
+	private int age;
+	@Column(name = "address")
+	private String loc;
+
+	@OneToMany
+	private List<Account> list;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getLoc() {
+		return loc;
+	}
+
+	public void setLoc(String loc) {
+		this.loc = loc;
+	}
+
+	public List<Account> getList() {
+		return list;
+	}
+
+	public void setList(List<Account> list) {
+		this.list = list;
+	}
+
+}
+---------------------------------------------------------------
+package com.jsp.entities;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
+@Entity
+public class Account {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Column(name = "bank_name")
+	private String name;
+	private String ifscCode;
+	@Column(name = "ac_name")
+	private long number;
+	@ManyToOne
+	private Person person;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIfscCode() {
+		return ifscCode;
+	}
+
+	public void setIfscCode(String ifscCode) {
+		this.ifscCode = ifscCode;
+	}
+
+	public long getNumber() {
+		return number;
+	}
+
+	public void setNumber(long number) {
+		this.number = number;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+}
+---------------------------------------------------------------
+package com.jsp.driver;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Account;
+import com.jsp.entities.Person;
+
+public class Test1 {
+	public static void main(String[] args) {
+		List<Account> list = new ArrayList<Account>();
+		Person person = new Person();
+		person.setName("Vijay");
+		person.setLoc("HSR");
+		person.setAge(35);
+		
+		Account account1 = new Account();
+		account1.setName("hdfc");
+		account1.setNumber(549876321);
+		account1.setIfscCode("1000hdfc");
+		
+		Account account2 = new Account();
+		account2.setName("sbi");
+		account2.setNumber(123456789);
+		account2.setIfscCode("500sbi");
+		
+		list.add(account1);
+		list.add(account2);
+		person.setList(list);
+		account1.setPerson(person);
+		account2.setPerson(person);
+		
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(person);
+		entityManager.persist(account1);
+		entityManager.persist(account2);
+		entityTransaction.commit();
+	}
+}
+----------------------------------------------------------------------------------------------------------------------
+FOLDER NAME: manytomany-bi
+----------------------------------------------------------------------------------------------------------------------
+package com.jsp.entities;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Student {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private int age;
+	@ManyToMany
+	private List<Subject> list;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public List<Subject> getList() {
+		return list;
+	}
+
+	public void setList(List<Subject> list) {
+		this.list = list;
+	}
+
+}
+--------------------------------------------------------------------------
+package com.jsp.entities;
+
+import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+@Entity
+public class Subject {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	private String name;
+	private int duration;
+	private String trainerName;
+	@ManyToMany
+	private List<Student> list;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+
+	public String getTrainerName() {
+		return trainerName;
+	}
+
+	public void setTrainerName(String trainerName) {
+		this.trainerName = trainerName;
+	}
+
+	public List<Student> getList() {
+		return list;
+	}
+
+	public void setList(List<Student> list) {
+		this.list = list;
+	}
+
+}
+-------------------------------------------------------------------------
+package com.jsp.driver;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
+import com.jsp.entities.Student;
+import com.jsp.entities.Subject;
+
+public class Test {
+	public static void main(String[] args) {
+		List<Subject> subjects = new ArrayList<Subject>();
+		List<Student> students = new ArrayList<Student>();
+		
+		Subject subject1 = new Subject();
+		subject1.setName("Java");
+		subject1.setDuration(90);
+		subject1.setTrainerName("Raveesh");
+		
+		Subject subject2 = new Subject();
+		subject2.setName("Web_Dev");
+		subject2.setDuration(45);
+		subject2.setTrainerName("Kishore");
+		
+		subjects.add(subject1);
+		subjects.add(subject2);
+		
+		Student student1 = new Student();
+		student1.setName("Akash");
+		student1.setAge(21);
+		
+		Student student2 = new Student();
+		student2.setName("Mohit");
+		student2.setAge(21);
+		
+		students.add(student1);
+		students.add(student2);
+		
+		student1.setList(subjects);
+		student2.setList(subjects);
+		
+		subject1.setList(students);
+		subject2.setList(students);
+		
+		EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("simha");
+		EntityManager entityManager = entityManagerFactory.createEntityManager();
+		EntityTransaction entityTransaction = entityManager.getTransaction();
+		entityTransaction.begin();
+		entityManager.persist(student1);
+		entityManager.persist(student2);
+		entityManager.persist(subject1);
+		entityManager.persist(subject2);
+		entityTransaction.commit();	
+		
+	}
+}
